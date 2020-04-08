@@ -1,0 +1,16 @@
+{
+  "name": "learn-three",
+  "version": "1.0.0",
+  "description": "Initial sketches in three js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "solquemal",
+  "license": "MIT",
+  "dependencies": {
+    "dat.gui": "^0.7.7",
+    "express": "^4.17.1",
+    "three": "^0.115.0"
+  }
+}
