@@ -41,7 +41,7 @@ gui.add(guiData, 'zoom',-1.5,2.).step(0.01);
 gui.addColor(guiData,'colorA');
 gui.addColor(guiData,'colorB');
 gui.add(guiData, 't',0.,1.).step(0.001);
-gui.add(guiData, 'power',0.,30.).step(0.5);
+gui.add(guiData, 'power',0.,30.).step(0.01);
 gui.add(guiData, 'rotate',0.,30.).step(0.5);
 
 var colorA = new THREE.Vector3( guiData.colorA[ 0 ] / 255, guiData.colorA[ 1 ] / 255, guiData.colorA[ 2 ] / 255 );

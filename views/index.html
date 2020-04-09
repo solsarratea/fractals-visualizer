@@ -42,7 +42,7 @@
                 return y;
             }
             vec3 palette( float t) {
-                return colorA + colorB*cos( 9.28*(colorC*t+colorD) );
+                return colorA/255. + colorB/255.*cos( 9.28*(colorC/255.*t+colorD/255.) );
             }
 
 
@@ -94,11 +94,11 @@
                     float d = clamp( pow(4.0*f,0.0998),0., 1.);
                     col = spectralGems(d);
     
-                    gl_FragColor = vec4(vec3(palette(d)),1.);
+                    gl_FragColor = vec4(vec3((1.-t)*palette(d) + t * col),1.);
                 }
          </script>
 
-		  <script id="mandelbulbfragmentShader" type="x-shader/x-fragment">
+		  <script id="mandelbulbFragmentShader" type="x-shader/x-fragment">
             uniform float time;
             uniform float camX;
             uniform float camY;
@@ -247,6 +247,6 @@
             
             }
 		</script>
-		<script src="/mandelbrot.js"></script>
+		<script src="/3d.js"></script>
 	</body>
 </html>

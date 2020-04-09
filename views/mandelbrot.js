@@ -22,7 +22,7 @@ var guiData = {
   "orY": 1.3,
   "scale": 2.7,
   "zoom": -1.5,
-  "colorA": [162,73,73],
+  "colorA": [65,52,170],
   "colorB": [247,247,247],
   "colorD": [162,73,73],
   "colorC": [247,247,247],
@@ -30,8 +30,8 @@ var guiData = {
 };
 
 
-gui.add(guiData, 'orX', -10, 10.).step(0.0001);
-gui.add(guiData, 'orY', -10, 10.).step(0.0001);
+gui.add(guiData, 'orX', -50, 50.).step(0.00001);
+gui.add(guiData, 'orY', -50, 50.).step(0.00001);
 gui.add(guiData, 'scale', -5., 5.).step(0.0001);
 gui.add(guiData, 'zoom',-1.5,2.).step(0.0001);
 gui.addColor(guiData,'colorA');
@@ -40,10 +40,10 @@ gui.addColor(guiData,'colorC');
 gui.addColor(guiData,'colorD');
 gui.add(guiData, 'rainbowAmount',0.,1.).step(0.0001);
 
-var colorA = new THREE.Vector3( guiData.colorA[ 0 ] / 255, guiData.colorA[ 1 ] / 255, guiData.colorA[ 2 ] / 255 );
-var colorB = new THREE.Vector3( guiData.colorB[ 0 ] / 255, guiData.colorB[ 1 ] / 255, guiData.colorB[ 2 ] / 255 );
-var colorC = new THREE.Vector3( guiData.colorA[ 0 ] / 255, guiData.colorA[ 1 ] / 255, guiData.colorA[ 2 ] / 255 );
-var colorD = new THREE.Vector3( guiData.colorB[ 0 ] / 255, guiData.colorB[ 1 ] / 255, guiData.colorB[ 2 ] / 255 );
+var colorA = new THREE.Vector3( guiData.colorA[ 0 ], guiData.colorA[ 1 ], guiData.colorA[ 2 ] );
+var colorB = new THREE.Vector3( guiData.colorB[ 0 ], guiData.colorB[ 1 ], guiData.colorB[ 2 ] );
+var colorC = new THREE.Vector3( guiData.colorA[ 0 ], guiData.colorA[ 1 ], guiData.colorA[ 2 ] );
+var colorD = new THREE.Vector3( guiData.colorB[ 0 ], guiData.colorB[ 1 ], guiData.colorB[ 2 ] );
 
 
 material = new THREE.ShaderMaterial( {
@@ -87,9 +87,9 @@ function animate() {
     material.uniforms[ "zoom" ].value = guiData.zoom;
     material.uniforms[ "colorA" ].value = guiData.colorA;
     material.uniforms[ "colorB" ].value = guiData.colorB;
-    material.uniforms[ "colorC" ].vClue = guiData.colorC;
-    material.uniforms[ "colorD" ].vDlue = guiData.colorD;
-    material.uniforms[ "t" ].vDlue = guiData.rainbowAmount;
+    material.uniforms[ "colorC" ].value = guiData.colorC;
+    material.uniforms[ "colorD" ].value = guiData.colorD;
+    material.uniforms[ "t" ].value = guiData.rainbowAmount;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
