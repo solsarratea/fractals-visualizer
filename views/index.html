@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Mandelbulb</title>
+		<title>Fractals</title>
 		<script src="/three.min.js"></script>
 		<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 		<script type="text/javascript" src="dat.gui.min.js"></script>
@@ -22,8 +22,83 @@
               vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
               gl_Position = projectionMatrix * mvPosition;
             }
-		 </script>
-		  <script id="fragmentShader" type="x-shader/x-fragment">
+         </script>
+         <script id="mandelbrotFragmentShader" type="x-shader/x-fragment">
+            uniform float time;
+            uniform float zoom;
+            uniform float orX;
+            uniform float orY;
+            uniform float scale;
+            varying vec2 vUv;
+            uniform vec3 colorA;
+            uniform vec3 colorB;
+            uniform vec3 colorC;
+            uniform vec3 colorD;
+            uniform float t;
+
+             vec3 bump3 (vec3 x) {
+                vec3 y = vec3(1.,1.,1.) - x * x;
+                y = max(y, vec3(0.,0.,0.));
+                return y;
+            }
+            vec3 palette( float t) {
+                return colorA + colorB*cos( 9.28*(colorC*t+colorD) );
+            }
+
+
+                vec3 spectralGems (float x) {
+                    return bump3
+                    (   vec3
+                        (
+                            4. * (x - 0.7), // Red
+                            4. * (x - 0.5), // Green
+                            4. * (x - 0.23) // Blue
+                        )
+                    );
+                }
+
+
+                float distanceEstimatorMandelbrot(vec2 c) {
+                    vec2 z = vec2(0.);
+                    vec2 dz = vec2(0.); 
+
+                    float m2 = 255.;
+                    float dis = 1000.;
+                    
+                
+                    for( int i=0; i<1000; i++ )
+                    {
+                        if( m2 > 1000.0) {  break; }
+
+                        dz = 2.0*vec2(z.x*dz.x-z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.);
+
+                        z = vec2( z.x*z.x - z.y*z.y, 2.0*z.x*z.y ) + c;
+                
+
+                        m2 = dot(z,z);  
+                    }
+                    return sqrt( m2/dot(dz,dz) )*log(m2) *0.5;
+                }
+
+
+
+                void main() {
+                    vec2 v = vUv;
+                    v = v*scale-vec2(orX, orY);
+
+                    v *= pow( 0.7, 5.0 + 13.*(1.+zoom));
+
+                    float f = distanceEstimatorMandelbrot(v);      //f(z) = z ^ 2 + k
+                
+                    vec3 col;
+                    float d = clamp( pow(4.0*f,0.0998),0., 1.);
+                    col = spectralGems(d);
+    
+                    gl_FragColor = vec4(vec3(palette(d)),1.);
+                }
+         </script>
+
+		  <script id="mandelbulbfragmentShader" type="x-shader/x-fragment">
             uniform float time;
             uniform float camX;
             uniform float camY;
@@ -159,7 +234,6 @@
 
 
             void main() {
-                // vec2 c = vec2(cR,cI);
                 vec2 v = vUv;
                 v = v *4. - 2.;
                 v *= pow( 0.7, 5.0 + 13.*(1.+zoom));
@@ -173,6 +247,6 @@
             
             }
 		</script>
-		<script src="/3d.js"></script>
+		<script src="/mandelbrot.js"></script>
 	</body>
 </html>
