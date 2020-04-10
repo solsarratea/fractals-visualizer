@@ -5,10 +5,10 @@
   "main": "functions/server.js",
   "scripts": {
     "start": "node local-server.js",
-    "build": "netlify-lambda build express",
+    "build": "netlify-lambda build express"
   },
-  "author": "solquemal",
   "license": "MIT",
+  "author": "solquemal",
   "dependencies": {
     "dat.gui": "^0.7.7",
     "express": "^4.17.1",
