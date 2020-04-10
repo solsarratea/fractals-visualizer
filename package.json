@@ -2,9 +2,10 @@
   "name": "learn-three",
   "version": "1.0.0",
   "description": "Initial sketches in three js",
-  "main": "index.js",
+  "main": "functions/server.js",
   "scripts": {
-    "build": "node server.js"
+    "start": "node local-server.js",
+    "build": "netlify-lambda build express",
   },
   "author": "solquemal",
   "license": "MIT",
@@ -12,5 +13,14 @@
     "dat.gui": "^0.7.7",
     "express": "^4.17.1",
     "three": "^0.115.0"
+  },
+  "devDependencies": {
+    "dat.gui": "^0.7.7",
+    "express": "^4.17.1",
+    "three": "^0.115.0",
+    "body-parser": "^1.19.0",
+    "netlify-lambda": "^1.6.3",
+    "nodemon": "^1.19.2",
+    "serverless-http": "^2.3.0"
   }
 }
