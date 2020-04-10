@@ -1,11 +1,11 @@
 {
-  "name": "learn-three",
+  "name": "fractals-visualizer",
   "version": "1.0.0",
-  "description": "Initial sketches in three js",
+  "description": "Fractals shaders visualizer",
   "main": "functions/server.js",
   "scripts": {
     "start": "node local-server.js",
-    "build": "netlify-lambda build express"
+    "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "license": "MIT",
   "author": "solquemal",
