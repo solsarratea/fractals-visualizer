@@ -1,9 +1,12 @@
 var width = window.innerWidth;
 var height = window.innerHeight;
 
-camera = new THREE.Camera();
+var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 1000);
+camera.position.y = 0;
+camera.position.z = 10;
+
 scene = new THREE.Scene();
-var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+var geometry = new THREE.PlaneBufferGeometry(1,1);
 
 var startTime = Date.now();
 
@@ -11,10 +14,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-var scene = new THREE.Scene();
-var uniforms = {
-  time: { value: 1.0 },
-}
 
 var gui = new dat.GUI();
 var guiData = {
@@ -30,10 +29,6 @@ var guiData = {
 };
 
 
-gui.add(guiData, 'orX', -50, 50.).step(0.00001);
-gui.add(guiData, 'orY', -50, 50.).step(0.00001);
-gui.add(guiData, 'scale', -5., 5.).step(0.0001);
-gui.add(guiData, 'zoom',-1.5,2.).step(0.0001);
 gui.addColor(guiData,'colorA');
 gui.addColor(guiData,'colorB');
 gui.addColor(guiData,'colorC');
@@ -66,7 +61,16 @@ material = new THREE.ShaderMaterial( {
 } );
 
 var plane = new THREE.Mesh( geometry, material );
+plane.scale.y = innerHeight*0.01;
+plane.scale.x = innerHeight*0.01;
 scene.add( plane );
+
+//Add Controls
+var domEvents	= new THREEx.DomEvents(camera, renderer.domElement);
+var controls = new THREE.OrbitControls(camera, renderer.domElement);  
+controls.enableRotate = false;
+var dragControls = new THREE.DragControls( [plane], camera, renderer.domElement );
+
 
 function onWindowResize() {
     width = window.innerWidth;
@@ -81,10 +85,6 @@ function animate() {
 
     var time = performance.now() * 0.0005;
     material.uniforms[ "time" ].value = time;
-    material.uniforms[ "orX" ].value = guiData.orX;
-    material.uniforms[ "orY" ].value = guiData.orY;
-    material.uniforms[ "scale" ].value = guiData.scale;
-    material.uniforms[ "zoom" ].value = guiData.zoom;
     material.uniforms[ "colorA" ].value = guiData.colorA;
     material.uniforms[ "colorB" ].value = guiData.colorB;
     material.uniforms[ "colorC" ].value = guiData.colorC;
@@ -95,5 +95,5 @@ function animate() {
     requestAnimationFrame(animate);
   } 
 
-window.addEventListener('resize', onWindowResize, true);
+window.addEventListener('resize', onWindowResize, false);
 animate();
