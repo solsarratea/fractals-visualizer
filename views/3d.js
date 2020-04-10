@@ -1,8 +1,16 @@
+import * as THREE from './three.module.js';
+import * as dat from './dat.gui.module.js';
+import { OrbitControls } from "/OrbitControls.js";
+import { DragControls } from "/DragControls.js";
+
 var width = window.innerWidth;
 var height = window.innerHeight;
 
-camera = new THREE.Camera();
-scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 1000);
+camera.position.y = 0;
+camera.position.z = 5;
+
+var scene = new THREE.Scene();
 var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
 var startTime = Date.now();
@@ -11,7 +19,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-var scene = new THREE.Scene();
 var uniforms = {
   time: { value: 1.0 },
 }
@@ -47,10 +54,7 @@ gui.add(guiData, 'rotate',0.,30.).step(0.5);
 var colorA = new THREE.Vector3( guiData.colorA[ 0 ] / 255, guiData.colorA[ 1 ] / 255, guiData.colorA[ 2 ] / 255 );
 var colorB = new THREE.Vector3( guiData.colorB[ 0 ] / 255, guiData.colorB[ 1 ] / 255, guiData.colorB[ 2 ] / 255 );
 
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-
-material = new THREE.ShaderMaterial( {
+var material = new THREE.ShaderMaterial( {
   uniforms: {
     "time": { value: 0.0 },
     "resolution": { type: "v2", value: new THREE.Vector2() },
@@ -73,6 +77,19 @@ material = new THREE.ShaderMaterial( {
 
 var plane = new THREE.Mesh( geometry, material );
 scene.add( plane );
+
+//Add Controls
+
+var controls = new OrbitControls(camera, renderer.domElement);  
+controls.enableRotate = false;
+
+var dragControls = new DragControls( [plane], camera, renderer.domElement );
+
+dragControls.addEventListener( 'dragstart', function ( event ) {
+  if(rotationFlag){
+    dragControls.deactivate();
+  }
+} );
 
 function onWindowResize() {
     width = window.innerWidth;
