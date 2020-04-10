@@ -1,0 +1,28 @@
+body {
+    width: 100%;
+    margin: 25px 0;
+    padding: 0;
+    background: #f8f8f1;
+    font-family: "Inconsolata", monospace;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+ul {
+    padding-left: 2rem;
+    list-style-type: none;
+   
+  }
+  
+  ul li {
+    padding-left: 2rem;
+    background-image: url(star.svg);
+    background-position: 0 0;
+    background-size: 1.6rem 1.6rem;
+    background-repeat: no-repeat;
+  }
+
+  a{
+    color: black;
+  }

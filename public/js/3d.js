@@ -14,10 +14,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-var uniforms = {
-  time: { value: 1.0 },
-}
-
 var gui = new dat.GUI();
 var guiData = {
   "zoom": -1.13,
