@@ -20,13 +20,10 @@ var uniforms = {
 
 var gui = new dat.GUI();
 var guiData = {
-  "camX": -0.092, 
-  "camY": -0.131,
-  "camZ": -1.575,
   "zoom": -1.13,
   "colorA": [162,73,73],
   "colorB":[247,247,247],
-  "t": 0.6,
+  "colorInterpolationFactor": 0.6,
   "power":8.,
   "rotate": 6.,
   "bailout": 10.,
@@ -34,16 +31,13 @@ var guiData = {
 };
 
 
-gui.add(guiData, 'camX', -.2, .2).step(0.001);
-gui.add(guiData, 'camY', -.2, .2).step(0.001);
-gui.add(guiData, 'camZ', -2., 2.).step(0.001);
 gui.add(guiData, 'bailout', 5., 25.).step(0.1);
-gui.add(guiData, 'light', 0., 4.).step(0.1);
-gui.add(guiData, 'zoom',-1.5,2.).step(0.01);
+gui.add(guiData, 'light', 0., 4.).step(0.001);
+gui.add(guiData, 'zoom',-1.5,1.).step(0.01);
 gui.addColor(guiData,'colorA');
 gui.addColor(guiData,'colorB');
-gui.add(guiData, 't',0.,1.).step(0.001);
-gui.add(guiData, 'power',0.,30.).step(0.01);
+gui.add(guiData, 'colorInterpolationFactor',0.,1.).step(0.001);
+gui.add(guiData, 'power',0.,17.).step(0.0001);
 gui.add(guiData, 'rotate',0.,30.).step(0.5);
 
 var colorA = new THREE.Vector3( guiData.colorA[ 0 ] / 255, guiData.colorA[ 1 ] / 255, guiData.colorA[ 2 ] / 255 );
@@ -53,9 +47,9 @@ var material = new THREE.ShaderMaterial( {
   uniforms: {
     "time": { value: 0.0 },
     "resolution": { type: "v2", value: new THREE.Vector2() },
-    "camX": { type: "f", value: guiData.camX },
-    "camY": { type: "f", value: guiData.camY },
-    "camZ": { type: "f", value: guiData.camZ },
+    "camY": { type: "f", value: -0.131 },
+    "camX": { type: "f", value: -0.092 },
+    "camZ": { type: "f", value: -1.575 },
     "zoom": { type: "f", value: guiData.zoom },
     "colorA" : { type : 'v3', value : colorA },
     "colorB" : { type : 'v3', value : colorB },
@@ -112,19 +106,18 @@ function animate() {
 
     var time = performance.now() * 0.0005;
     material.uniforms[ "time" ].value = time;
-    material.uniforms[ "camX" ].value = guiData.camX;
-    material.uniforms[ "camY" ].value = guiData.camY;
-    material.uniforms[ "camZ" ].value = guiData.camZ;
+
     material.uniforms[ "zoom" ].value = guiData.zoom;
     material.uniforms[ "colorA" ].value = guiData.colorA;
     material.uniforms[ "colorB" ].value = guiData.colorB;
-    material.uniforms[ "t" ].value = guiData.t;
+    material.uniforms[ "t" ].value = guiData.colorInterpolationFactor;
     material.uniforms[ "power" ].value = guiData.power;
 
     material.uniforms[ "light" ].value = guiData.light;
     material.uniforms[ "bailout" ].value = guiData.bailout;
     if (rotationFlag){
       material.uniforms[ "rotate" ].value += 0.001;
+      guiData.rotate = material.uniforms[ "rotate" ].value;
      }else{
        material.uniforms[ "rotate" ].value = guiData.rotate;
      }
