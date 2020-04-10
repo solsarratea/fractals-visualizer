@@ -5,7 +5,7 @@
   "main": "functions/server.js",
   "scripts": {
     "start": "node local-server.js",
-    "build": "./node_modules/.bin/netlify-lambda build src"
+    "build": "npm install && ./node_modules/.bin/netlify-lambda build src"
   },
   "license": "MIT",
   "author": "solquemal",
