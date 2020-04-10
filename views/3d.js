@@ -1,8 +1,3 @@
-import * as THREE from './three.module.js';
-import * as dat from './dat.gui.module.js';
-import { OrbitControls } from "/OrbitControls.js";
-import { DragControls } from "/DragControls.js";
-
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -11,7 +6,7 @@ camera.position.y = 0;
 camera.position.z = 5;
 
 var scene = new THREE.Scene();
-var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+var geometry = new THREE.PlaneBufferGeometry( 5, 5 );
 
 var startTime = Date.now();
 
@@ -79,17 +74,29 @@ var plane = new THREE.Mesh( geometry, material );
 scene.add( plane );
 
 //Add Controls
+var rotationFlag = false; 
 
-var controls = new OrbitControls(camera, renderer.domElement);  
+var domEvents	= new THREEx.DomEvents(camera, renderer.domElement);
+var controls = new THREE.OrbitControls(camera, renderer.domElement);  
 controls.enableRotate = false;
 
-var dragControls = new DragControls( [plane], camera, renderer.domElement );
+var dragControls = new THREE.DragControls( [plane], camera, renderer.domElement );
 
 dragControls.addEventListener( 'dragstart', function ( event ) {
   if(rotationFlag){
     dragControls.deactivate();
   }
 } );
+
+domEvents.addEventListener(plane, 'dblclick', function(event){
+  console.log("clicking", event)
+  rotationFlag = !rotationFlag;
+  if (!rotationFlag){
+    dragControls.activate();
+  }
+}, false)
+
+
 
 function onWindowResize() {
     width = window.innerWidth;
@@ -113,9 +120,14 @@ function animate() {
     material.uniforms[ "colorB" ].value = guiData.colorB;
     material.uniforms[ "t" ].value = guiData.t;
     material.uniforms[ "power" ].value = guiData.power;
-    material.uniforms[ "rotate" ].value = guiData.rotate;
+
     material.uniforms[ "light" ].value = guiData.light;
     material.uniforms[ "bailout" ].value = guiData.bailout;
+    if (rotationFlag){
+      material.uniforms[ "rotate" ].value += 0.001;
+     }else{
+       material.uniforms[ "rotate" ].value = guiData.rotate;
+     }
   } 
 
 window.addEventListener('resize', onWindowResize, false);
