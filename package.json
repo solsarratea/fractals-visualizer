@@ -12,12 +12,12 @@
   "dependencies": {
     "dat.gui": "^0.7.7",
     "express": "^4.17.1",
-    "three": "^0.115.0"
+    "three": "^0.125.0"
   },
   "devDependencies": {
     "dat.gui": "^0.7.7",
     "express": "^4.17.1",
-    "three": "^0.115.0",
+    "three": "^0.125.0",
     "body-parser": "^1.19.0",
     "netlify-lambda": "^1.6.3",
     "nodemon": "^1.19.2",
